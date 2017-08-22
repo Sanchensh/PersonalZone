@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mrxu.personalzone.dao.UserMapper">
+    <select id="findUser" parameterType="String" resultType="User">
+         SELECT * FROM zone_user
+         <if test="userAccount != ''">
+             WHERE userAccount=#{userAccount} AND userPwd=#{userPwd}
+         </if>
+    </select>
+    <select id="isHasAccount" parameterType="String" resultType="User">
+        SELECT * FROM zone_user WHERE userAccount=#{userAccount}
+    </select>
+    <select id="find" parameterType="String" resultType="User">
+        SELECT * FROM zone_user WHERE userName LIKE #{userName}
+        <if test="userID != ''">AND userID = #{userID}</if>
+    </select>
+    <select id="getUserByID" parameterType="String" resultType="User">
+        SELECT * FROM zone_user WHERE userID=#{userID}
+    </select>
+    <insert id="insertUser" parameterType="user">
+        INSERT INTO zone_user(
+        userAccount,
+        userPwd,
+        userSName,
+        userName,
+        userSex,
+        userAge,
+        userBirth,
+        userEmail,
+        userPhoto,
+        userMobil) VALUES (
+        #{userAccount},
+        #{userPwd},
+        #{userSName},
+        #{userName},
+        #{userSex},
+        #{userAge},
+        #{userBirth},
+        #{userEmail},
+        #{userPhoto},
+        #{userMobil})
+    </insert>
+    <delete id="deleteUser" parameterType="java.lang.String">
+        DELETE FROM zone_user WHERE userID=#{userID}
+    </delete>
+    <update id="updateUser" parameterType="User">
+        UPDATE zone_user SET
+          userAccount = #{userAccount},
+          userPwd = #{userPwd},
+          userSName = #{userSName},
+          userName = #{userName},
+          userSex = #{userSex},
+          userAge = #{userAge},
+          userBirth = #{userBirth},
+          userEmail = #{userEmail},
+          userPhoto = #{userPhoto},
+          userMobil = #{userMobil}
+        WHERE  userID = #{userID}
+    </update>
+    <!--<resultMap id="map" type="Employee" autoMapping="true">
+        <id property="empID" column="empID"/>
+        <association property="department" javaType="Department">
+            <id property="deptID" column="deptID"/>
+            <result property="deptName" column="deptName"/>
+        </association>
+    </resultMap>-->
+</mapper>
